@@ -33,7 +33,7 @@ class Queue4 {
 	public int enque(int x) throws OverflowQueueException {
 		if(isFull()) throw new OverflowQueueException(); //큐가 가득찬 경우 예외처리
 		que[rear++]= x;
-		
+		rear++;
 		return que;
 	}
 
