@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 //실습 6번 : 원형 큐로서 큐에 Point 객체를 배열로 저장
-//실습4_3_2 정수 원형 큐 배열을 객체 버젼으로 구현하는 것임
 //num 변수를 사용하지 않고 front == rear 일 때 queue가 full인지 empty 인지를 판단
 
 //실습 7번 : 원형 큐로서 큐에 Point 객체를 저장
@@ -93,7 +92,7 @@ class CircularQueue {
 //추가
 		}
 }
-public class Train_ex04_06and07_assign {
+public class Train_ex04_07_assign {
 	public static void main(String[] args) {
 		Scanner stdIn = new Scanner(System.in);
 		CircularQueue oq = new CircularQueue(4); // 최대 4개를 인큐할 수 있는 큐
