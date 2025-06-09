@@ -1,8 +1,6 @@
 package ch04;
-/*
- * 실습 4_2번 - 실습 4_1의 배열 대신 ArrayList을 사용한 구현하기 
- * 객체스택과 큐에 대한 구현도 정수 스택의 예외처리 방식을 반복 적용함 
- */
+//실습 4_2번 - 실습 4_1의 배열 대신 ArrayList을 사용한 구현하기 
+
 
 import java.util.ArrayList;
 import java.util.List;

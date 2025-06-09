@@ -167,19 +167,17 @@ public class Train_ex04_06_withoutNum {
 			
 			switch (menu) {
 			case 1: // 인큐
-				// 큐의 상태를 직접 확인하여 try-catch 제거
-			    if (oq.size() == oq.getCapacity()) { // 가득 찼는지 직접 확인
-			        System.out.println("큐가 가득 찼습니다.");
-			    } else {
-			        // 가득 차지 않았을 때만 객체를 생성하고 인큐
-			        rndx = random.nextInt(20);
-			        rndy = random.nextInt(20);
-			        p = new Point4(rndx, rndy);
-			        oq.enque(p);
-			        System.out.println("입력 데이터: " + p);
-			    }
-			    break;
-
+				rndx = random.nextInt(20);
+				rndy = random.nextInt(20);
+				System.out.print("입력데이터: (" + rndx + ", " + rndy + ")");
+				p = new Point4(rndx,rndy);
+				try {
+					oq.enque(p);
+				} catch(objectQueue2.OverflowQueueException e) {
+					System.out.println("큐가 가득 차있습니다.");
+				}
+				break;
+				
 			case 2: // 디큐
 				try {
 					p = oq.deque();

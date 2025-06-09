@@ -1,7 +1,7 @@
 package ch04;
 /* 스택으로 풀기
 
-문제 설명: 괄호 짝찾기
+문제 설명: 
 괄호로 이루어진 문자열이 주어졌을 때, 각 괄호가 제대로 짝을 이루고 있는지 확인하는 프로그램
 괄호 <>, (), {}, []- 여는 괄호가 있을 때, 반드시 짝이 맞는 닫는 괄호가 나와야 하고, 괄호는 올바르게 중첩되어야 한다.
 
@@ -16,13 +16,12 @@ package ch04;
 출력 형식:
   괄호가 유효하면 "Valid"를, 유효하지 않으면 "Invalid"를 출력.
 */
-
 import java.util.*;
 
 class CStack{
 	private Character[] stk; // 스택용 캐릭터 배열
 	private int capacity; // 스택의 전체 크기
-	private int top; // 현재 스택에 들어있는 데이터의 갯수
+	private int top; // 스택 꼭대기
 	
 	public CStack(int maxlen) {
 		capacity = maxlen;
@@ -51,10 +50,12 @@ class CStack{
 	@Override
 	public String toString() {
 		return Arrays.toString(stk);
-	}	
+	}
+	
+	
 }
 
-public class Train_ex04_08_assign {
+public class Train_ex04_08_assign_solution {
 	private HashMap<Character, Character> pairs = new HashMap<Character,Character>(); 
 	
 	
@@ -67,9 +68,9 @@ public class Train_ex04_08_assign {
     	
         String[] cases1 = {
             "(12{as[33<1q2w3e>90]kkk}4r)fg", 
-            "<111{ddd[4r(1q2w3e)44]77}jj>kk",
+            "<111{ddd[4r(1q2w3e)44]77}jj>kk" ,
             "zz{w(a+b)*[c/d]-<q-e>1+2}w*t", 
-            "dd[a+b+c(y*u[abstract]go{234}2w3e)444]ttt", 
+            "dd[a+b+c(y*u[abstract]go{234}2w3e)444]ttt" , 
             "a+b<c-d<e%r{123{waste[go[stop(a+b+c(?)$)@]!]*}12}33>c-d>drop" 
         };
 
@@ -90,6 +91,7 @@ public class Train_ex04_08_assign {
             }
         	System.out.println();
         }
+        
         
         System.out.println("예제1:");
         for (String test : cases1) {

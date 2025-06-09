@@ -7,8 +7,6 @@ package ch04;
 
 import java.util.Scanner;
 
-//int형 고정 길이 스택
-
 class IntStack3 {
 	private int[] stk; // 스택용 정수 배열
 	private int capacity; // 스택의 전체용량
