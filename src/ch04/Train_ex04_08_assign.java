@@ -20,21 +20,21 @@ package ch04;
 import java.util.*;
 
 class CStack{
-	private Character[] stk; // 스택용 캐릭터 배열
+	private String[] stk; // 스택용 캐릭터 배열
 	private int capacity; // 스택의 전체 크기
 	private int top; // 현재 스택에 들어있는 데이터의 갯수
 	
 	public CStack(int maxlen) {
 		capacity = maxlen;
-		stk = new Character[capacity];
+		stk = new String[capacity];
 		top = 0;
 	}
 	
-	public Character push(Character x){
+	public String push(String x){
 		return stk[top++]=x;
 	}
 	
-	public Character pop(){
+	public String pop(){
 		return stk[top--];
 	}
 	
@@ -57,13 +57,12 @@ class CStack{
 public class Train_ex04_08_assign {
 	private HashMap<Character, Character> pairs = new HashMap<Character,Character>(); 
 	
-	
 	public static boolean isValid(String s) {
 		return false;
     }
 
     public static void main(String[] args) {
-    	CStack st = new CStack(500);
+    	CStack st = new CStack(200);
     	
         String[] cases1 = {
             "(12{as[33<1q2w3e>90]kkk}4r)fg", 
@@ -82,12 +81,15 @@ public class Train_ex04_08_assign {
         };
 
         for(int i=0; i<cases1.length; i++) {
-        	for(int j=0;j<cases1[i].length();j++) {
-        		char c = cases1[i].charAt(j);
-        		//System.out.print(c);
-        		st.push(c);
-        		System.out.print(st);
-            }
+        	for(String s : cases1[i].split("")) {
+        		//System.out.print(s+" ");
+        		String sArr = st.push(s);
+    			System.out.print(sArr);
+        		if(s=="<" || s=="(" || s=="{" || s=="[" ) {
+        			String st = st.push(s);
+        			System.out.println(st);
+        		}
+        	}
         	System.out.println();
         }
         

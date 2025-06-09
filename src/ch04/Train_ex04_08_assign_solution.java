@@ -18,12 +18,12 @@ package ch04;
 */
 import java.util.*;
 
-class CStack{
+class CStack2{
 	private Character[] stk; // 스택용 캐릭터 배열
 	private int capacity; // 스택의 전체 크기
 	private int top; // 스택 꼭대기
 	
-	public CStack(int maxlen) {
+	public CStack2(int maxlen) {
 		capacity = maxlen;
 		stk = new Character[capacity];
 		top = 0;
@@ -33,8 +33,9 @@ class CStack{
 		return stk[top++]=x;
 	}
 	
-	public Character pop(){
-		return stk[top--];
+	public Character pop(Character x){
+		top--;
+		return x;
 	}
 	
 	public boolean isEmpty(){
@@ -42,9 +43,8 @@ class CStack{
 		return false;
 	}
 	
-	public boolean isTop(){
-		if(top==capacity) return true;
-		return false;
+	public Character isTop(){
+		return stk[top];
 	}
 
 	@Override
@@ -56,11 +56,25 @@ class CStack{
 }
 
 public class Train_ex04_08_assign_solution {
-	private HashMap<Character, Character> pairs = new HashMap<Character,Character>(); 
-	
-	
+
 	public static boolean isValid(String s) {
-		return false;
+		Stack<Character> stk = new Stack<Character>();
+		for(char ch : s.toCharArray()) {
+			//여는 괄호가 존재하면 stack에 push
+			if(ch=='('|ch=='{'|ch=='['|ch=='<') {
+				stk.push(ch);
+			}
+			//닫는 괄호를 만나면 stack에서 pop  //HashMap을 이용해서 이 부분을 키로 잡을 수도 있음
+			if(ch==')'|ch=='}'|ch==']'|ch=='>') {
+				//isEmpty로 비었는지 확인 
+				if(!stk.isEmpty()) { //-> false면 pop
+					//짝이 맞는지 비교 ex) <> -> false면 
+					if()
+				}
+			}
+		}
+		//완전히 짝을 맞춰서 스택이 비면 true를 반환
+		return stk.isEmpty();
     }
 
     public static void main(String[] args) {
@@ -81,17 +95,6 @@ public class Train_ex04_08_assign_solution {
             "q*t&w{12-34[a+b]*(c/d]-e}123", 
             "12<a/b/c/d{q-t-t[a=c(78::]23;)'8}sss>x+y+w",
         };
-
-        for(int i=0; i<cases1.length; i++) {
-        	for(int j=0;j<cases1[i].length();j++) {
-        		char c = cases1[i].charAt(j);
-        		//System.out.print(c);
-        		st.push(c);
-        		System.out.print(st);
-            }
-        	System.out.println();
-        }
-        
         
         System.out.println("예제1:");
         for (String test : cases1) {
