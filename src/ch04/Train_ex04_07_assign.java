@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 //실습 7번 : 원형 큐로서 큐에 Point 객체를 저장
-//num 변수를 사용하지 않고 front == rear 일 때 queue가 full인지 empty 인지를 판단
-//class CircularQueue의 필드는 QUEUE_SIZE, que,front, rear, isEmptyTag 변수만 사용
+//num 변수를 사용하지 않음
 
 class Point5 {
 	private int ix;
@@ -159,8 +158,23 @@ public class Train_ex04_07_assign {
 	             break;
 	        }
 			
+			
+			//예외처리 유무의 기준 : 해당 작업을 실패하는 것이 프로그램의 정상적인 흐름을 더 진행할 수 없을 정도로 치명적이고 예측 가능한 '오류'인가?
+
+			//Case 1 (인큐): 작업의 '실패'가 명확하고 예측 가능한 경우
+			//사용자 의도: "큐에 새로운 데이터를 추가하고 싶다."
+			//예외 상황: 큐가 가득 차서 더 이상 데이터를 추가할 수 없다
+			
+			//Case 4 (덤프): 작업의 '실패'가 아닌 '다른 결과'인 경우
+			//사용자 의도: "큐에 들어있는 모든 내용을 보고 싶다."
+			//예외 처리 필요 X : 작업이 실패한 것이 아니라, 결과가 '0개'임
+			
+			//Case 5 (클리어): 작업의 '실패'가 불가능한 경우
+			//사용자 의도: "큐를 깨끗하게 비우고 싶다."
+			//예외 처리 필요 X: 작업의 실패가 불가능함. 이미 큐가 비워져 있든말든 초기화시키면 됨
+
 			switch (menu) {
-			case 1: // 인큐
+			case 1: // 인큐 
 				rndx = random.nextInt(20);
 				rndy = random.nextInt(20);
 				System.out.print("입력데이터: (" + rndx + ", " + rndy + ")");

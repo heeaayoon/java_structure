@@ -18,68 +18,28 @@ package ch04;
 */
 import java.util.*;
 
-class CStack2{
-	private Character[] stk; // 스택용 캐릭터 배열
-	private int capacity; // 스택의 전체 크기
-	private int top; // 스택 꼭대기
-	
-	public CStack2(int maxlen) {
-		capacity = maxlen;
-		stk = new Character[capacity];
-		top = 0;
-	}
-	
-	public Character push(Character x){
-		return stk[top++]=x;
-	}
-	
-	public Character pop(Character x){
-		top--;
-		return x;
-	}
-	
-	public boolean isEmpty(){
-		if(top==0) return true;
-		return false;
-	}
-	
-	public Character isTop(){
-		return stk[top];
-	}
-
-	@Override
-	public String toString() {
-		return Arrays.toString(stk);
-	}
-	
-	
-}
-
-public class Train_ex04_08_assign_solution {
+public class Train_ex04_08_assign_HashMap {
 
 	public static boolean isValid(String s) {
-		Stack<Character> stk = new Stack<Character>();
+		Stack<Character> stk = new Stack<Character>(); //자바의 내장 stack 사용
+		//문자열의 각 문자를 순회하면서
 		for(char ch : s.toCharArray()) {
-			//여는 괄호가 존재하면 stack에 push
-			if(ch=='('|ch=='{'|ch=='['|ch=='<') {
+			if(ch=='('||ch=='{'||ch=='['||ch=='<') { //여는 괄호를 만나면 stack에 push
 				stk.push(ch);
-			}
-			//닫는 괄호를 만나면 stack에서 pop  //HashMap을 이용해서 이 부분을 키로 잡을 수도 있음
-			if(ch==')'|ch=='}'|ch==']'|ch=='>') {
-				//isEmpty로 비었는지 확인 
-				if(!stk.isEmpty()) { //-> false면 pop
-					//짝이 맞는지 비교 ex) <> -> false면 
-					if()
-				}
+			} else if(ch==')'||ch=='}'||ch==']'||ch=='>') { //닫는 괄호를 만나면 stack에서 두가지 검사를 진행  //HashMap을 이용해서 이 부분을 키로 잡을 수도 있음
+				if(stk.isEmpty()) return false; //1. stack이 비었는지 isEmpty로 확인 -> 비면 유효하지 X
+				char last = stk.pop(); //2. 가장 최근에 push 된 여는 괄호를 꺼내
+				if((ch==')'&&last!='(')
+						|| (ch=='}'&&last!='{')
+						|| (ch==']'&&last!='[')
+						|| (ch=='>'&&last!='<')) return false; //괄호의 짝이 맞지 않으면 -> 유효하지 X
 			}
 		}
-		//완전히 짝을 맞춰서 스택이 비면 true를 반환
+		//순회 종료 후, 스택이 비면 -> 유효하게 처리된 것
 		return stk.isEmpty();
     }
 
     public static void main(String[] args) {
-    	CStack st = new CStack(500);
-    	
         String[] cases1 = {
             "(12{as[33<1q2w3e>90]kkk}4r)fg", 
             "<111{ddd[4r(1q2w3e)44]77}jj>kk" ,
@@ -98,12 +58,12 @@ public class Train_ex04_08_assign_solution {
         
         System.out.println("예제1:");
         for (String test : cases1) {
-            System.out.println(test + " → " + isValid(test));
+            System.out.println(test + " → " + (isValid(test)?"Valid":"Invalid"));
         }
 
         System.out.println("\n예제2:");
         for (String test : cases2) {
-            System.out.println(test + " → " + isValid(test));
+            System.out.println(test + " → " + (isValid(test)?"Valid":"Invalid"));
         }
     }
 }

@@ -162,17 +162,16 @@ public class Train_ex04_06_useNum {
 			
 			switch (menu) {
 			case 1: // 인큐
-			    //isFull()을 먼저 체크하여 불필요한 객체 생성을 막고 try-catch 제거
-                if (oq.isFull()) {
-                    System.out.println("큐가 가득 찼습니다.");
-                } else {
-                    rndx = random.nextInt(20);
-                    rndy = random.nextInt(20);
-                    p = new Point3(rndx, rndy);
-                    oq.enque(p);
-                    System.out.println("입력 데이터: " + p);
-                }
-                break;
+                rndx = random.nextInt(20);
+				rndy = random.nextInt(20);
+				System.out.print("입력데이터: (" + rndx + ", " + rndy + ")");
+				p = new Point3(rndx,rndy);
+				try {
+					oq.enque(p);
+				} catch(objectQueue2.OverflowQueueException e) {
+					System.out.println("큐가 가득 차있습니다.");
+				}
+				break;
 
 			case 2: // 디큐
 				try {
