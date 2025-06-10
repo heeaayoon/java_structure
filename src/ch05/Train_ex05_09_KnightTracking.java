@@ -10,7 +10,6 @@ Knight's Tour 문제는 체스판에서 나이트(Knight) 말이 모든 체스�
  */
 
 import java.util.Stack;
-
 enum knightMoves {NW, NE, EN, ES, SE, SW, WS, WN}
 
 class Offsets4 { //현재위치에서 a,b 더해서 다음 위치를 결정함
@@ -25,8 +24,7 @@ public class Train_ex05_09_KnightTracking {
 
 	public static void main(String[] args) {
 		initializeBoard();	
-		// 나이트가 (0, 0)에서 시작
-		if (solveKnightTracking(0, 0)) {
+		if (solveKnightTracking(0, 0)) { // 나이트가 (0, 0)에서 시작
 			showTracking();
 		} else {
 			System.out.println("해결할 수 없습니다.");
