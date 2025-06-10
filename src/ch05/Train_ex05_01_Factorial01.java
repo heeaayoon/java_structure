@@ -6,17 +6,16 @@ import java.util.Scanner;
 //음이 아닌 정수 n의 팩토리얼 값을 반환
 //recursive relation(재귀 관계)을 이해 : n! = n*(n-1)!
  
-public class Train_ex05_01 {
+public class Train_ex05_01_Factorial01 {
 	 static int factorial(int n) {
-//	     if (n > 0) {
-//	    	 System.out.println("return " + n + " * factorial(" + n + " - 1);");
-//	         return n * factorial(n - 1); //n! = n*(n-1)!
-//	     }
-//	     else {
-//	    	 System.out.println("return 1");
-//	         return 1;
-//	     }
-		 return  (n>0)?n*factorial(n-1):1; //삼항연산자 이용하면 한줄로 코딩 가능
+	     if (n > 0) {
+	    	 System.out.println("return " + n + " * factorial(" + n + " - 1);");
+	         return n * factorial(n - 1); //n! = n*(n-1)!
+	     }
+	     else {
+	    	 System.out.println("return 1");
+	         return 1;
+	    }
 	 }
 
 	 public static void main(String[] args) {
@@ -26,5 +25,6 @@ public class Train_ex05_01 {
 	     int x = stdIn.nextInt();
 
 	     System.out.println(x + "의 팩토리얼은 " + factorial(x) + "입니다.");
+//	     System.out.println(10*9*8*7*6*5*4*3*2);
 	 }
 	}

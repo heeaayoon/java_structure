@@ -2,9 +2,9 @@ package ch05;
 
 import java.util.Scanner;
 //실습 5-6 : recursive의 tail 부분을 non-recursive 코드로 수정  - p.173~174
-public class Train_ex05_06 {
+public class Train_ex05_06_TailRecur {
 	 static void recur(int n) {
-		//recur(n-2) 호출을 while 로 변경
+		//recur(n-2) 호출을 -> while 루프에 인수로 (n-2)를 전달하여 recur메소드를 호출함 
 		//if(n>0) {
 		 while (n > 0) {
 	    	 System.out.println("recur(" + n+ " - 1) 호출됨");

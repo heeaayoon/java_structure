@@ -1,27 +1,12 @@
 package ch04;
-/* 스택으로 풀기
-
-문제 설명: 
-괄호로 이루어진 문자열이 주어졌을 때, 각 괄호가 제대로 짝을 이루고 있는지 확인하는 프로그램
-괄호 <>, (), {}, []- 여는 괄호가 있을 때, 반드시 짝이 맞는 닫는 괄호가 나와야 하고, 괄호는 올바르게 중첩되어야 한다.
-
-조건:
-  1. 여는 괄호는 반드시 닫는 괄호와 짝을 이뤄야 한다.
-  2. 괄호들은 올바르게 중첩되어야 한다.
-  3. 괄호 외의 문자는 무시한다.
-
-입력 형식:
-  한 줄에 괄호 문자열이 주어지고, 문자열은 괄호 외에도 다른 문자를 포함.
-
-출력 형식:
-  괄호가 유효하면 "Valid"를, 유효하지 않으면 "Invalid"를 출력.
-*/
+//hashMap 추가
 import java.util.*;
 
 public class Train_ex04_08_assign_HashMap {
 
 	public static boolean isValid(String s) {
 		Stack<Character> stk = new Stack<Character>(); //자바의 내장 stack 사용
+		//HashMap 사용
 		//문자열의 각 문자를 순회하면서
 		for(char ch : s.toCharArray()) {
 			if(ch=='('||ch=='{'||ch=='['||ch=='<') { //여는 괄호를 만나면 stack에 push

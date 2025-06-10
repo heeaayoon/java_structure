@@ -1,5 +1,5 @@
 package ch05;
-
+/*
 generate all the permuations of arr[0],..., arr[m] where m은 사이즈
     if (k ==m) {//permutation 출력
     	for (char c : arr) {

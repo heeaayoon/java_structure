@@ -1,9 +1,8 @@
 package ch05;
 
 import java.util.Scanner;
-//실습 5-2: factorial() 함수를 간결한 코딩으로 해결
-//삼항 연산자
-public class Train_ex05_02 {
+//실습 5-2: 삼항 연산자 이용해 factorial() 함수를 간결한 코딩으로 해결
+public class Train_ex05_01_Factorial02 {
 	 static int factorial(int n) {
 		 System.out.println(n + "* factorial(" + n + "- 1)5");
 	     return (n > 0) ? n * factorial(n - 1) : 1;
