@@ -19,21 +19,22 @@ public class Train_ex05_07_MagicSquare {
        
         int row = 0, col = n / 2; // 시작 위치
         for (int num = 1; num <= n * n; num++) {
-//        	 System.out.println(row+","+col);
+        	magicSquare[row][col] = num; //현재 위치에 숫자 배치
+        	
         	int nextRow = row-1;
             int nextCol = col+1;
             
             if(nextRow<0) nextRow=n-1; 
             if(nextCol>=n) nextCol=0;
             
-            if(magicSquare[row][col]!=0) {
+            if(magicSquare[nextRow][nextCol]!=0) {
             	nextRow = row+1;
             	nextCol = col;
-            	if(nextRow>=n) nextRow=0;
             }
+            if(nextRow>=n) nextRow=0;
+       
             row = nextRow;
             col = nextCol;
-            magicSquare[row][col] = num; //현재 위치에 숫자 배치
             //System.out.println(row+","+col);
             }
 
@@ -58,28 +59,37 @@ public class Train_ex05_07_MagicSquare {
 
     // 마방진 유효성 검증 메서드 -> 가로 세로 대각선의 합이 동일한지?
     static boolean checkSquare(int[][] ms, int magicSum) {
-//    	ms[0][0]+ms[0][1]+ms[0][2]
-//    	ms[1][0]+ms[1][1]+ms[1][2]
-//    	ms[2][0]+ms[2][1]+ms[2][2]
-    	
-    	int sumrow =0;
+    	//가로 검사
     	for(int i=0;i<ms.length;i++) {
+    		int sumrow =0;
     		for(int j=0;j<ms[0].length;j++) {
     			sumrow +=ms[i][j];
     		}
-    		System.out.println(sumrow);
-    		sumrow=0;
+    		 if (sumrow != magicSum) return false;
     	}
-    	
-    	int sumcol =0;
+    	//세로 검사
     	for(int i=0;i<ms.length;i++) {
+    		int sumcol =0;
     		for(int j=0;j<ms[0].length;j++) {
     			sumcol +=ms[j][i];
     		}
-    		System.out.println(sumcol);
-    		sumcol=0;
+    		if (sumcol != magicSum) return false;
     	}
-    	//if(sum1==magicSum) return true;
-    	return false;
+    	
+    	//대각선 우하향
+    	int diagSum1 = 0;
+        for (int i = 0; i < ms.length; i++) {
+            diagSum1 += ms[i][i];
+        }
+        if (diagSum1 != magicSum) return false;
+    	
+        //대각선 좌하향
+        int diagSum2 = 0;
+        for (int i = 0; i < ms.length; i++) {
+            diagSum2 += ms[i][ms.length - 1 - i];
+        }
+        if (diagSum2 != magicSum) return false;
+        
+    	return true;
     }
 }
