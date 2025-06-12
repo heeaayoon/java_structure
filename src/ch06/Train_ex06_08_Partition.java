@@ -18,11 +18,11 @@ public class Train_ex06_08_Partition {
 	     int x = a[n / 2];  // 피벗(가운데 요소)
 
 	     do {
-	         while (a[pl] < x) pl++;
-	         while (a[pr] > x) pr--;
+	         while (a[pl] < x) pl++; //피벗보다 작으면 패스
+	         while (a[pr] > x) pr--; //피벗보다 크면 패스
 	        // System.out.println("pivot = " + x + ", pl = " + pl + ", pr= " + pr);
 	         if (pl <= pr)
-	             swap(a, pl++, pr--);
+	             swap(a, pl++, pr--); 
 	        // System.out.println("	>> pl = " + pl + ", pr= " + pr);//디버거로 값 변화를 추적
 	         for (int num: a)
 	        	 System.out.print(" " + num);

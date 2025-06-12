@@ -3,7 +3,7 @@ package ch06;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Train_ex06_09_QuickSort {
+public class Train_ex06_09_QuickSort01 {
 	static int count = 0;
 
 	// --- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
@@ -23,7 +23,9 @@ public class Train_ex06_09_QuickSort {
 		for (int i = left; i < right; i++)
 			System.out.printf("%d, ", a[i]);
 		System.out.printf("%d}\n", a[right]);
-
+		
+		
+		//do-while문은 partition 하는 것임
 		do {
 			while (a[pl] < x) {
 				pl++;

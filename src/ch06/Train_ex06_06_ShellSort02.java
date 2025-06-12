@@ -1,9 +1,8 @@
 package ch06;
-//비교횟수가 아닌 동작 과정을 이해하기 위한 버젼
+//비교횟수가 아닌 동작 과정을 이해하기 위한 버젼 p.221~223
 
 //그림 6-18: shell 정렬이 그룹이 섞이지 않는 문제: 4그룹 > 2그룹
-//해결: h가 서로 배수가 안되게 해야
-//셸정렬(버전 2 : h = …, 40, 13, 4, 1) - shell 정렬을 이해하기 위한 코드임 
+//해결: h가 서로 배수가 안되게 셸정렬(버전 2 : h = …, 40, 13, 4, 1) 
 //[8 1 4 2 7 6 3 5] 정렬 실습 코드 
 
 import java.util.Random;
@@ -14,11 +13,11 @@ public class Train_ex06_06_ShellSort02 {
 	static void shellSort(int[] a, int n) {
 		// int count = 0;
 		int h;
-		for (h = 1; h < n; h = h * 3 + 1)// h 초기 값을 구한다
+		for (h = 1; h < n; h = h * 3 + 1)// h 초기 값을 구한다 //1->4=>13
 			;
 		System.out.println("h = " + h);
-		for (; h > 0; h /= 3)
-			for (int i = h; i < n; i++) {// 1회차 13<8이므로 skip한 후에 2회차에 실행
+		for (; h > 0; h /= 3) //13->4->1
+			for (int i = h; i < n; i++) {// 1회차 13<8이므로 skip한 후에 2회차 4로 실행
 				System.out.println("h1 = " + h);
 				int j;
 				int tmp = a[i];
