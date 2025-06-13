@@ -21,7 +21,7 @@ class SimpleObject5 {
 	public SimpleObject5() {
 		no = null;name = null;
 	}
-	// --- 데이터를 읽어 들임 ---//
+	// 데이터를 읽어 들임 ---//
 	void scanData(String guide, int sw) {//sw가 3이면 11 비트 연산 >  NO, NAME을 모두 입력받는다 
 		Scanner sc = new Scanner(System.in);
 		System.out.println(guide + "할 데이터를 입력하세요."+ sw);
@@ -109,7 +109,7 @@ class LinkedList2 {
 		 */
 	}
 }
-public class Train_ex08_01_LinkedList02 {
+public class Train_ex08_01_LinkedList02_assign {
 
 	enum Menu {
 		Add( "삽입"), Delete( "삭제"), Show( "인쇄"), Search( "검색"), Merge("합병"), Exit( "종료");

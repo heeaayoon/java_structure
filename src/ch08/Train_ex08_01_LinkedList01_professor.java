@@ -25,73 +25,64 @@ class LinkedList1 {
 	}
 
 	// 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
-	public void Add(int element) {
+	public void Add(int element) 
+	{
 		Node1 newNode = new Node1(element);
-
-		// 1.리스트가 비어있거나 새 노드가 첫 노드보다 작을 경우 -> 맨 앞에 삽입
-		if (first == null || element < first.data) {
-			newNode.link = first;
-			first = newNode;
+		Node p = first, q = null;
+		if(p ==null) { // 맨 처음에 빈 리스트에 추가
+			first = tmp;
 			return;
 		}
-		// 2.리스트의 중간이나 끝에 삽입할 위치 찾기 -> 포인터 2개를 이용
-		Node1 p = first; // 들어갈 자리를 탐색하는 포인터
-		Node1 q = null; // 이전 노트 포인터(p의 이전 노드를 가리킴)
-
-		// 기존 노드들이 있으면 순서가 유지하면서 삽입할 노드 위치를 찾는다
-		while (p != null && p.data < element) {
-			q = p;
-			p = p.link;
+		while (p != null) {
+			// 기존 노드들이 있으면 순서가 유지하도록 삽입할 노드 위치를 찾는다
+			if(p.data<element) {
+				q=p;
+				p=p.next;
+			}else {
+				tmp.next = p;
+				if(q==null) first = p;
+				else q.next = tmp;
+			}
 		}
-		// 3. 찾은 위치에 노드를 삽입
-		q.link = newNode;
-		newNode.link = p;
+		q.next = tmp;
 	}
 
 	// 전달된 element 값이 존재 하면 삭제하고 true로 리턴
-	public boolean Delete(int element) {
-		if(first == null) return false; //리스트가 비어있는 경우는 삭제 불가
-		
-		Node1 p = first; // 들어갈 자리를 탐색하는 포인터
-		Node1 q = null; // 이전 노트 포인터(p의 이전 노드를 가리킴)
-		
-		//1.삭제할 노드 찾기
-		while (p != null && p.data != element) {
-			q=p;
-			p=p.link;
+	public boolean Delete(int element) 
+	{
+		Node p =first, q = null;
+		whilhe(p!=null){
+			if(element >p.data) {
+				 q=p; //q는 p를 따라다니는 커서(포인터)
+				 p=p.next;
+			}else if(element == p.data) {
+				q.next = p.next;
+				return 1;
+			}
+
 		}
-		//2.삭제할 노드를 찾지 못한 경우
-		if(p==null) return false;
-		//3.삭제할 노드를 찾은 경우
-		if(q==null) {
-			first = p.link;
-		}else {
-			q.link=p.link;
-		}
-		return true; //삭제 성공
+		return false;// 삭제할 대상이 없다.
 	}
 
 	// 전체 리스트를 순서대로 출력한다.
-	public void Show() {
-		Node1 p = first;
+	public void Show() { 
+		Node p = first;
 		while (p != null) {
-			System.out.println(p.data); //현재 노드의 데이터를 출력하고
-			p = p.link; //다음 노드로 이동
+			System.out.println();
+			p=p.next;
 		}
 		System.out.println();
 	}
 
 	// 전달된 data 값을 찾아 존재하면 true로 리턴, 없으면 false로 리턴
-	public boolean Search(int data) {
+	public boolean Search(int data) { 
 		Node1 ptr = first;
 		while (ptr != null) {
-			if (ptr.data == data) {
-				return true; // 데이터를 찾으면 즉시 true 반환
-			}
-			ptr = ptr.link; // 못 찾으면 다음 노드로 이동
+			// 구현
 		}
 		return false;
 	}
+
 
 	void Merge(LinkedList1 b) {
 		/*
@@ -113,7 +104,7 @@ class LinkedList1 {
 	}
 }
 
-public class Train_ex08_01_LinkedList01 {
+public class Train_ex08_01_LinkedList01_professor {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Merge("합병"), Exit("종료");
 
