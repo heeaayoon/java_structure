@@ -109,10 +109,10 @@ class Tree5 {
 		root = null;
 	}
 	/*
-	 * inorderSucc()는 current 노드 다음에 방문할 노드를 찾는다
 	 * inorder traversal를 이해하는 것이 필요하다 
 	 * 트리에서 delete 구현시에 사용된다 
 	 */
+	//inorderSucc()는 current 노드 다음에 방문할 노드를 찾는다
 	TreeNode5 inorderSucc(TreeNode5 current) {
 		TreeNode5 temp = current.RightChild;
 		if (current.RightChild != null)
@@ -122,8 +122,12 @@ class Tree5 {
 		return temp;
 	}
 
-	boolean isLeafNode(TreeNode5 current) {//current 가 leaf node 인지 조사 
-
+	//current 가 leaf node(자식 노드가 없는지) 인지 조사
+	boolean isLeafNode(TreeNode5 current) {
+		if(current.LeftChild == null && current.RightChild==null)
+			return true;
+		else
+			return false;
 	}
 
 	void inorder() {//main에서 호출되는 driver function(구동을 위한 함수)
@@ -183,12 +187,7 @@ class Tree5 {
 				CurrentNode = CurrentNode.LeftChild;
 			}
 			if (!s.isEmpty()) {
-				try {
-					CurrentNode = s.pop();
-				} catch (Chap9_Tree.ObjectStack5.EmptyGenericStackException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				CurrentNode = s.pop();
 				System.out.println(" " + CurrentNode.data);
 				CurrentNode = CurrentNode.RightChild;
 			}
@@ -236,10 +235,46 @@ class Tree5 {
 		TreeNode5 p = root, q = null, parent = null;
 		int branchMode = 0; // 1은 left, 2는 right
 		
+		while (p!=null) {
+			if(num>p.data) {
+				q=p;
+				p=p.RightChild;
+				branchMode = 1;
+			}
+			else if(num<p.data) {
+				q=p;
+				p=p.LeftChild;
+				branchMode = 2;
+			}
+			else { 	//삭제할 값
+				if(isLeafNode(p)==true) { //자식 노드가 없는 경우
+					if(branchMode==1)
+						q.LeftChild = null;
+					else
+						q.RightChild = null;
+				}else { //leaf node가 아니면(자식 노드가 있는 경우)
+					if(isOneChild(p) ==true) { //자식이 1개인 경우
+						
+					}else { //자식이 2개인 경우 -> inorder successor를 구해서 replace 함
+						TreeNode5 succ = inorderSucc(p); 
+						p.data = succ.data;
+						delete(succ); //recursive하게 삭제함
+						//non-recursive 하게 삭제하는 법 : p,q를 사용
+					}
+				}
+			}
+				
+				
+		}
+		
 		return false;
 
 	}
 
+	private boolean isOneChild(TreeNode5 p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	//num 값을 binary search tree에서 검색
 	boolean search(int num) {
 		TreeNode5 p = root;
