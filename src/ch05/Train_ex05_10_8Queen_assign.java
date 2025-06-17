@@ -51,7 +51,6 @@ public class Train_ex05_10_8Queen_assign {
 		for (int i = 0; i < data.length; i++)
 			for (int j = 0; j < data[0].length; j++)
 				data[i][j] = 0;
-
 		EightQueen(data);
 	}
 
@@ -83,7 +82,7 @@ public class Train_ex05_10_8Queen_assign {
 				if(ix==8) {
 					numberOfSolutions++;
 					//showQueens(d); //그 배치를 보여줌
-					System.out.println();
+					//System.out.println();
 					//다른 배치를 찾기 위해서는 일부러 한 번 백트래킹함, 마지막에 놓은 퀸도 지워야함
 					Point tempP = st.pop(); //8번째 퀸의 위치 정보를 tempP에 저장
 					ix=tempP.getIx(); //8번째 퀸이 놓여 있던 행의 위치(7행)을 ix에 저장
