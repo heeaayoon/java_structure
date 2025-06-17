@@ -10,6 +10,11 @@ class Polynomial3 implements Comparable<Polynomial3>{
     Polynomial3(double coef, int exp) {
         this.coef = coef;  this.exp = exp; 
     }
+	@Override
+	public int compareTo(Polynomial3 o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
 

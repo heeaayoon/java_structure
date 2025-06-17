@@ -74,8 +74,7 @@ public class Train_ex05_11_Maze_assign {
 				if((maze[g][h]==0)&&(mark[g][h]==0)) {
 					 mark[g][h] = 1;
 					 //현재 위치와 다음 시도할 방향을 스택에 미리저장(백트래킹 포인트 저장)
-					 current.dir = dir+1;
-					 st.push(current);
+					 st.push(new Items(i, j, dir+1)); //새로운 객체를 생성해서 푸시
 					 //실제로 이동하기
 					 i=g;
 					 j=h;
@@ -84,8 +83,8 @@ public class Train_ex05_11_Maze_assign {
 					dir++;					
 				}
 			}
-			//현재 (i,j)에서 8방향이 모두 막힌 경우(한번도 루프를 돌지 못한 경우) -> mark 지우기
-			//mark[i][j] = 0;				
+			//현재 (i,j)에서 8방향이 모두 막힌 경우(한번도 루프를 돌지 못한 경우) -> mark 0으로 지우기
+			mark[i][j] = 0;				
 		}
 		//스택이 모두 빌때까지 출구를 찾지 못함
 		System.out.println("No path found");
