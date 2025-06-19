@@ -80,6 +80,9 @@ public class Train_ex06_09_QuickSort03_nonRecursive_assign {
 
 	}
 
+	private static void showData(int[] a) {
+	}
+
 	public static void main(String[] args) {
 		int nx = 10;
 		int[] x = new int[10];
