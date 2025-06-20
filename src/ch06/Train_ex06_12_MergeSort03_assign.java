@@ -149,7 +149,7 @@ public class Train_ex06_12_MergeSort03_assign {
 		//만약, 계수가 0이면 추가하지 않음
 		if(term.coef==0) return terms; //항의 갯수는 변화 X
 		
-		//동일한 지수의 항을 찾아서 더하기
+		//동일한 지수의 항을 찾아서 더하기(동류항 찾기)
 		for(int i=0;i<terms;i++) {
 			if(z[i].exp==term.exp) { //만약 지수가 동일하다면 해당항끼리 더해주기
 				z[i].coef += term.coef;

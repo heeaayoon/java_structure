@@ -3,19 +3,19 @@ package ch06;
 import java.util.Random;
 import java.util.Scanner;
 
-interface MaxHeap { // 인터페이스는 구현클래스에서 반드시 메소드 오버라이드가 필요함
+interface MaxHeap2 { // 인터페이스는 구현클래스에서 반드시 메소드 오버라이드가 필요함
 	public void Insert(int x);
 	public int DeleteMax();
 }
 
-class Heap implements MaxHeap {
+class Heap2 implements MaxHeap {
 	final int heapSize = 100;
 	private int[] heap;
 	private int n; // MaxHeap의 현재 입력된 element 개수
 	private int maxSize; // Maximum allowable size of MaxHeap
 	
 	//생성자 : 필드를 초기화할 때 사용됨
-	public Heap(int sz) {
+	public Heap2(int sz) {
 		this.maxSize = sz;
 		heap = new int [maxSize+1]; //인덱스 1부터 사용하도록 수정함
 		this.n = 0;		
@@ -23,9 +23,7 @@ class Heap implements MaxHeap {
 	
 	//heap 배열을 출력하는 메소드 : 배열 인덱스와 heap[]의 값을 출력
 	public void display() {
-		for(int i =1; i<=n;i++) {
-			System.out.println(heap[i]+" ");
-		}
+		int i;
 	
 	}
 	
@@ -54,56 +52,42 @@ class Heap implements MaxHeap {
 	@Override
 	//root 노드(가장 큰 값)를 삭제하고 리턴한다. 
 	public int DeleteMax() {
-//		int x;
-//		int i, j;
+		int x = heap[1]; //최종 반환값
+		int lastE = heap[n]; //배열의 마지막값을 루트로 옮기기 위해 필요함
 		//isEmpty?
 		if (n == 0) {
 			HeapEmpty();
-			int elm = 0;
+			int elm = -1;
 			return elm;
 		}
 		
-		//1.루트를 삭제하면서 공간 줄이기
-		int max = heap[1]; //루트
+		//1.heap 공간 줄이기
+		n--; //heap 길이 -1
 		
-		heap[1]=heap[n]; //heap의 맨 마지막 요소를 루트로 가져옴
-		n--; //(heap 길이-1)
+		//2. i,j 루트와 왼쪽
+		int i = 1; // 루트 인덱스 : 1
+		int j = 2; // 왼쪽 자식인덱스 : 2
 		
-		int current = 1; //현재 인덱스 = 1
-		
-		while(current<=n/2) { //current가 리프노드가 아닐 동안은 계속 돔 -> 위치변환 검사를 위해서
-			int left = 2*current;//왼쪽 자식 
-			int right = 2*current+1;//오른쪽 자식 
-			
-			int largest = current; //일단 셋 중에 current가 가장 크다고 가정하기
-			
-			//largest와 왼쪽 자식 비교 -> 왼쪽 자식이 더 크면 바꾸기
-			if(left<=n && heap[largest]<heap[left]) {
-				largest = left;
+	
+		//3. 재배치 시작 while( //가장 큰 값을 위로 옮기기
+		while(j<=n) {
+			if(j<n && heap[j]<heap[j+1]) { //3-1 오른쪽 자식이 존재하면서, 왼쪽 자식보다 큰가?
+				j++; //크면 오른쪽 값이 됨
 			}
-		
-			//largest와 오른쪽 자식 비교 -> 오른쪽 자식이 더 크면 바꾸기
-			if(right<=n && heap[largest]<heap[right]) {
-				largest = right;
+			if(lastE>=heap[j]){ //3-2 마지막 원소가 자식보다 크거나 같은가?
+				break;
 			}
-			
-			//만약 largest 가 바꼈다면
-			if(largest != current) {
-				swap(current, largest);
-				current = largest; //current 인덱스를 largest로 바꿔주기
-			} else { //largest가 안바꼈다면,
-				break; //제자리에 위치한 것
-			}
+			//3-3 자식을 위로 이동 
+			heap[i] = heap[j];
+			i=j;
+			j=2*1;
 		}
-		//반환되는 max는 최댓값
-		return max;
-	}
-
-	private void swap(int current, int largest) {
-		int tmp;
-		tmp = heap[current];
-		heap[current] = heap[largest];
-		heap[largest] = tmp;
+		//)
+		//4. 적절한 위치에 특정 값을 배치
+		heap[i] = lastE;
+		
+		//반환되는 x는 최댓값
+		return x;
 	}
 
 	//n의 크기를 반환하는 메소드 
@@ -136,12 +120,10 @@ class Heap implements MaxHeap {
 		System.out.println("Heap Full");
 	}
 }
-public class Train_ex06_17_HeapSort {
+public class Train_ex06_17_HeapSort_sol {
 	
-	static void showData(int[] d, int count) {
-		for(int i = 1; i<=count;i++) {
-			System.out.println(d[i]+" ");
-		}
+	static void showData(int[] d) {
+
 	 }
 	
 	public static void main(String[] args) {
@@ -151,41 +133,29 @@ public class Train_ex06_17_HeapSort {
 		Heap heap = new Heap(20);
 	    final int count = 10; //난수 생성 갯수
 	    int[] x = new int[count+1]; //x[0]은 사용하지 않으므로 11개 정수 배열을 생성한다 
-	    int[] sorted = new int[count+1]; //heap을 사용하여 deleted 정수를 배열 sorted[]에 보관후 출력한다
+	    int[] sorted = new int[count]; //heap을 사용하여 deleted 정수를 배열 sorted[]에 보관후 출력한다
 
 		do {
 			System.out.println("Max Tree. Select: 1 insert, 2 display, 3 sort, 4 exit => ");
 			select = stdIn.nextInt();
 			switch (select) {
-			case 1://난수를 10개 생성하여 배열 x에 넣는다 > heap에 insert한다.
-				
-				for(int i =1;i<=count;i++) {
-					x[i] = rnd.nextInt(100);
-					heap.Insert(x[i]);
-				}
-			     showData(x, count);
+			case 1://난수를 생성하여 배열 x에 넣는다 > heap에 insert한다.
+
+			     showData(x);
 				break;
 			case 2:	//heap 트리구조를 배열 인덱스를 사용하여 출력한다.
 				heap.display();
 				break;
-			case 3: //heap에서 delete를 사용하여 삭제된 값을 배열 sorted에 넣는다 > 배열 sorted[]를 출력하면 정렬 결과를 얻는다 
-				//힙 안에 든 요소의 수(고정)
-				int heapSize = heap.size();
-				
-				if(heapSize==0) break;
-				
-				for (int i = 1; i <= heapSize; i++) {
-					sorted[i] = heap.DeleteMax(); 
-				}
-				showData(sorted, heapSize);
-				
+			case 3://heap에서 delete를 사용하여 삭제된 값을 배열 sorted에 넣는다 > 배열 sorted[]를 출력하면 정렬 결과를 얻는다 
+	
 				break;
+
 			case 4:
 				return;
+
 			}
 		} while (select < 5);
+
 		return;
 	}
 }
-
-
