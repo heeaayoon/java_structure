@@ -91,7 +91,7 @@ class Heap implements MaxHeap {
 			if(largest != current) {
 				swap(current, largest);
 				current = largest; //current 인덱스를 largest로 바꿔주기
-			} else { //largest가 안바꼈다면,
+			} else { //largest가 안 바꼈다면,
 				break; //제자리에 위치한 것
 			}
 		}

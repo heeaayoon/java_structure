@@ -80,7 +80,7 @@ class Heap2 implements MaxHeap {
 			//3-3 자식을 위로 이동 
 			heap[i] = heap[j];
 			i=j;
-			j=2*1;
+			j=2*i;
 		}
 		//)
 		//4. 적절한 위치에 특정 값을 배치
