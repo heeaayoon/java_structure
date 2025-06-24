@@ -1,8 +1,6 @@
 package ch11;
-/*
- * 해밀턴 경로 (Hamiltonian Path)란?
- * 모든 정점을 정확히 한 번씩 방문하는 경로
- */
+//해밀턴 경로 (Hamiltonian Path)란? 모든 정점을 정확히 한 번씩 방문하는 경로
+ 
 
 import java.util.Arrays;
 import java.util.Stack;

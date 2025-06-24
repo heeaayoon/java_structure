@@ -1,6 +1,10 @@
 package ch11;
 import java.util.*;
 
+//최소신장트리 : 여러 개의 부분 그래프 중 모든 정점이 최소 간선의 합으로 연결된 부분 그래프
+//모든 정점 -> DFS
+//최소의 합 -> BFS
+
 class Edge4 implements Comparable<Edge4> {
 	int src;
 	int dest;
