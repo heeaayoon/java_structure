@@ -1,96 +1,104 @@
 package ch11;
 
 //그래프 최단 경로 : BFS문제
-//다익스트라 알고리즘
+//1. 벨만포드
+//2. 다익스트라
+//3. 무방향
+//4. 행렬
+
 import java.util.Arrays;
 import java.util.Scanner;
 
+
+//Graph5는 최단거리에 사용되는 자료구조 
 class Graph5 {
     private static final int NMAX = 10;
     private static final int MAX_WEIGHT = 999999;
-    private int[][] length = new int[NMAX][NMAX];
-    private int[] dist = new int[NMAX];
-    private boolean[] s = new boolean[NMAX];
-    private final int n;
+    private int[][] length = new int[NMAX][NMAX]; //노드가 10개인 10X10 행렬
+    private int[] dist = new int[NMAX]; //거리의 기본값 : 999999 //최단거리를 구할 때 => (디폴트)최대값으로 초기화
     
-    //생성자
+    private boolean[] s = new boolean[NMAX]; //왜 필요한지?
+    private final int n; //왜 필요한지? 필드인데 초기화가 안되어 있음 -> 생성자에서 초기화
+    
+    //생성자의 가장 큰 역할 => 필드 초기화 
     public Graph5(int nodeSize) {
     	this.n = nodeSize;
     	
-    	//배열 초기화
+    	//그래프 초기화
     	for(int i=0;i<n;i++) {
-    		for(int j=0;j<n;j++) {
-    			if(i==j) //자신으로 가는 경로 -> 0으로 초기화
-    				length[i][j]=0;
-    			else //자신으로 가는 경로가 아니면 //최단거리를 구할 때는 비교할 디폴트값을 최댓값으로 두기
-    				length[i][j]=MAX_WEIGHT;
-    		}
-    	}	
+    		Arrays.fill(length[i], MAX_WEIGHT); //배열 한 줄씩 MAX_WEIGHT으로 채우기
+    		length[i][i] = 0;  //주대각선을 전부 0으로 
+    	}
     }
 
-    //노드 사이 연결
-    public void insertEdge(int start, int end, int weight) { //시작노드, 끝노드, 가중치
-    	this.length[start][end]=weight;
+    //간선을 추가하는 메소드
+    public void insertEdge(int start, int end, int weight) {
+    	length[start][end]= weight;
+    	//length[end][start]= weight; //여기선 무향그래프이기 때문에 주대각선 위만 사용하려면 이 코드가 필요없음
     }
 
-    //현재 연결된 정보를 출력
+    //행렬을 출력하는 메소드 
     public void displayConnectionMatrix() {
     	for(int i=0;i<n;i++) {
     		for(int j=0;j<n;j++) {
-    			System.out.print((length[i][j]==MAX_WEIGHT? "∞" : length[i][j])+" \t");
+    			if(length[i][j]==MAX_WEIGHT) { //이 경로로는 갈 수 없음
+    				System.out.print("∞"+" ");
+    			}else {
+    				System.out.print(length[i][j]+" ");
+    			}
     		}
     		System.out.println();
     	}
- 
     }
-
-    //음수가중치를 가진 길이 있는지 검사 
+    
+    //음수인지 아닌지? -> 벨만코드 알고리즘을 사용해야 하는지?
     public boolean isNonNegativeEdgeCost() {
     	for(int i=0;i<n;i++) {
     		for(int j=0;j<n;j++) {
-    			//음수가 존재하면 false 반환
+    			//음수를 찾으면 false 반환
     			if(length[i][j]!=MAX_WEIGHT && length[i][j]<0) return false;
     		}
     	}
+    	//음수를 못찾으면 true 반환
     	return true;
     }
-
-    //최종최단거리를 찾는 메소드
+    
+    //핵심 메소드 : 최단거리 구하기
     public void shortestPath(int startNode) {
-        //초기화
-    	Arrays.fill(s, false);
+        Arrays.fill(s, false);
         for (int i = 0; i < n; i++) {
-            dist[i] = length[startNode][i];
+            dist[i] = length[startNode][i]; //dist[b] = length[a][b], dist[c] = length[a][c] //특정노드 a에서 갈 수 있는(a~b/a~c/... 모든 경로
         }
         s[startNode] = true;
         dist[startNode] = 0;
         
-        //노드 최단경로 찾기
+        //전역탐색으로 최단거리 구하기(다익스트라 알고리즘)
         for (int i = 0; i < n - 1; i++) {
-        	int next = choose();
-        	s[next] = true; //해당 노드를 기록하기
-            for (int w = 0; w < n; w++) { 
-                if (!s[w] && length[next][w] != MAX_WEIGHT && dist[next] + length[next][w] < dist[w]) { 
-                    dist[w] = dist[next] + length[next][w]; 
-                } 
-            }
+        	//가장 작은 값 가져오기(choose 메소드 이용)
+        	int u = choose();
+        	//s[인덱스] = true 로 방문기록 남기기
+        	s[u] = true;
+        	//최단거리를 합산해서 비교하기
+        	for(int j=0;j<n;j++) {
+        		if(!s[j]&&dist[i]+length[u][j]<dist[j]) { //기존 값보다 더 작으면 
+        			dist[i] = dist[i]+length[u][j]; //갈아끼우기
+        		}
+        	}
         }
         printDistances(startNode);
     }
 
-    //최단 거리의 노드를 선택(인덱스 반환)
+    //가장 작은 값의 인덱스를 반환
     private int choose() {
         int minDist = MAX_WEIGHT;
-        int node = -1;
-        
-        //전체 노드를 순회하면서 -> 검사
-        for (int i=0;i<n;i++) {
-        	if(!s[i]&&dist[i]<minDist) { //아직 최단경로가 미정 && minDist보다 단거리인가?
+        int minPos = -1;
+        for(int i=0;i<n;i++) {
+        	if(!s[i]&&dist[i]<minDist) {
         		minDist = dist[i];
-        		node = i;
-        	}	
+        		minPos = i;
+        	}
         }
-        return node; //최단경로 없으면 -1반환
+        return minPos;
     }
 
     private void printDistances(int startNode) {
@@ -104,7 +112,7 @@ class Graph5 {
 }
 
 
-public class Train_ex11_05_MinimalRoute {
+public class Train_ex11_05_MinimalRoute_Professor {
 	static void showMatrix(int[][] m) {
 		System.out.println("Adjacency matrix:");
 		for (int[] row : m) {
@@ -151,7 +159,7 @@ public class Train_ex11_05_MinimalRoute {
             g = new Graph5(7);
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j < matrix[i].length; j++) {
-                    if (matrix[i][j] != 0) {
+                    if (matrix[i][j] != 0) { //왜 0이 아닌 경우에만? 
                         g.insertEdge(i, j, matrix[i][j]);
                     }
                 }

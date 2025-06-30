@@ -64,11 +64,10 @@ class SimpleObject2 {
 	}
 }
 
-class Node4 {
-	SimpleObject2 data; // 데이터
-	Node4 llink; // 좌측포인터(앞쪽 노드에 대한 참조)
-	Node4 rlink; // 우측포인터(뒤쪽 노드에 대한 참조)
-
+class Node<T>{//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있도록 수정
+	T data; // 데이터
+	Node<T> llink; // 좌측포인터(앞쪽 노드에 대한 참조)
+	Node<T> rlink; // 우측포인터(뒤쪽 노드에 대한 참조)
 }
 
 class DoubledLinkedList2 {
