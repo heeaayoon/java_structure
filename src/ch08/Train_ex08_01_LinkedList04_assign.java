@@ -1,7 +1,7 @@
 package ch08;
 /*
  * 정수 리스트 > 객체 리스트 > 04.객체 이중리스트 
- * * 헤드 노드가 있는 원형 리스트, 헤드 노드가 없는 원형 리스트 구현
+ * 헤드 노드가 있는 원형 리스트, 헤드 노드가 없는 원형 리스트 구현
  * merge 구현: in-place 구현, 새로운 노드를 생성하여 합병 구현 
  * 원형 이중 리스트로 동일하게 적용
  */
@@ -13,23 +13,27 @@ class SimpleObject2 {
 	static final int NAME = 2; // 이름을 읽어 들일까요?
 	String no; // 회원번호
 	String name; // 이름
-	String expire;//  유효기간 필드를 추가
-
+	String expire;//  유효기간
+	
+	//기본 생성자
+	public SimpleObject2() {
+		this.no = null;
+		this.name = null;
+	}
+	
+	//생성자
 	public SimpleObject2(String sno, String sname, String expire) {
 		this.no = sno;
 		this.name = sname;
 		this.expire = expire;
 	}
-	public SimpleObject2() {
-		this.no = null;
-		this.name = null;
-	}
-	// --- 문자열 표현을 반환 ---//
+	//문자열 표현을 반환
 	@Override
 	public String toString() {
-		return "(" + no + ") " + name;
+		return "[" + no + "] " + name;
 	}
-	// --- 데이터를 읽어 들임 ---//
+	
+	//데이터를 입력받는 메소드
 	void scanData(String guide, int sw) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(guide + "할 데이터를 입력하세요."+ sw);
@@ -43,7 +47,7 @@ class SimpleObject2 {
 			name = sc.next();
 		}
 	}
-	// --- 회원번호로 순서를 매기는 comparator ---//
+	//회원번호로 순서를 매기는 comparator
 	public static final Comparator<SimpleObject2> NO_ORDER = new NoOrderComparator();
 
 	private static class NoOrderComparator implements Comparator<SimpleObject2> {
@@ -53,7 +57,7 @@ class SimpleObject2 {
 		}
 	}
 
-	// --- 이름으로 순서를 매기는 comparator ---//
+	//이름으로 순서를 매기는 comparator 
 	public static final Comparator<SimpleObject2> NAME_ORDER = new NameOrderComparator();
 
 	private static class NameOrderComparator implements Comparator<SimpleObject2> {
@@ -64,55 +68,115 @@ class SimpleObject2 {
 	}
 }
 
-class Node<T>{//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있도록 수정
-	T data; // 데이터
-	Node<T> llink; // 좌측포인터(앞쪽 노드에 대한 참조)
-	Node<T> rlink; // 우측포인터(뒤쪽 노드에 대한 참조)
+class Node4 {//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있도록 수정
+	SimpleObject2 data; // 데이터
+	Node4 llink; // 좌측포인터(앞쪽 노드에 대한 참조)
+	Node4 rlink; // 우측포인터(뒤쪽 노드에 대한 참조)
+	
+	public Node4(SimpleObject2 x) {
+		this.data = x;
+		this.rlink = null;
+		this.llink = null;
+	}
+	
+	//기본 생성자 
+	public Node4() {
+		this.data = null;
+		this.rlink = this;
+		this.llink = this;
+	}
 }
+
+//class Node<T>{//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있도록 수정 --> 나중에
+//	T data; // 데이터
+//	Node<T> llink; // 좌측포인터(앞쪽 노드에 대한 참조)
+//	Node<T> rlink; // 우측포인터(뒤쪽 노드에 대한 참조)
+//}
 
 class DoubledLinkedList2 {
 	private Node4 first; // 머리 포인터(참조하는 곳은 더미노드)
 
-	// --- 생성자(constructor) ---//
+	//생성자(constructor)
 	public DoubledLinkedList2() {
 		first = new Node4(); // dummy(first) 노드를 생성
-
 	}
 
-	// --- 리스트가 비어있는가? ---//
+	//리스트가 비어있는가?
 	public boolean isEmpty() {
-		return first.rlink == first;
+		return first.rlink == first; //리스트가 비어있으면 first.rlink와 first.llink는 자기자신(first)을 가리킴
 	}
 
-	// --- 노드를 검색 ---//
-	public boolean search(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-
-	}
-
-	// --- 전체 노드 표시 ---//
+	//전체 노드 표시
 	public void show() {
-
+		if(isEmpty()) {
+			System.out.println("빈 리스트");
+			return; //종료
+		}
+		//첫번째 노드 설정
+		Node4 n = first.rlink; //first에는 데이터가 담겨있지 않음 -> 리스트의 시작과 끝을 알려주는 더미노드임
+		
+		//fist(더미노드)로 돌아올때까지 반복
+		while(n!=first) {
+			if(n.rlink == first) System.out.print(n.data+" ");
+			else System.out.print(n.data+" -> ");
+			n = n.rlink;
+		}
+		System.out.println();
 	}
 
-	// --- 올림차순으로 정렬이 되도록 insert ---//
+	//노드를 검색 -> 찾은 객체를 직접 반환, 찾지 못하면 null반환
+	public SimpleObject2 search(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
+		if(isEmpty()) {
+			System.out.println("빈 리스트");
+			return null; //종료
+		}
+		//첫번째 노드 설정
+		Node4 n = first.rlink;
+		
+		//fist(더미노드)로 돌아올때까지 반복하면서 동일한 데이터를 가진 노드가 있는지를 검색
+		while(n!=first) {
+			if(c.compare(obj, n.data)==0) {
+				return n.data; //데이터가 동일한 노드를 찾음
+			}
+			n= n.rlink;
+		}
+		return null; //데이터가 동일한 노드를 못찾음
+	}
+
+	//올림차순으로 정렬하면서 insert
 	public void add(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-
-
+		//첫번째 노드 설정
+		Node4 p = first.rlink;
+		//새로운 노드 설정
+		Node4 newNode = new Node4(obj);
+		
+		//첫번쨰 노드부터 while 루프를 돌면서 insert할 위치 찾기
+		//빈 리스트가 아니고, obj데이터>p데이터 인 동안만 돌기
+		while(p!=first && c.compare(obj, p.data)>0) {
+			p = p.rlink; //다음 노드로 이동
+		}
+		
+		//위치를 찾으면 newNode삽입 -> 왼,오를 어떻게 연결 -> p.llink - newNode - p 순으로 연결됨
+		newNode.llink=p.llink;
+		newNode.rlink = p;
+		
+		//주변 노드들도 newNode로 연결
+		p.llink.rlink = newNode;
+		p.llink = newNode;
 	}
 
-	// --- list에 삭제할 데이터가 있으면 해당 노드를 삭제 ---//
+	//list에 삭제할 데이터가 있으면 해당 노드를 삭제
 	public void delete(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-
+		
 	}
+	
+
+	//l3 = l1.merge(l2); 실행하도록 리턴 값이 리스트임 
+	//l.add(객체)를 사용하여 구현
+	//기존 리스트의 노드를 변경하지 않고 새로운 리스트의 노드들을 생성하여 구현 
 	public DoubledLinkedList2 merge_NewList(DoubledLinkedList2 lst2, Comparator<SimpleObject2> cc) {
-		//l3 = l1.merge(l2); 실행하도록 리턴 값이 리스트임 
-		//l.add(객체)를 사용하여 구현
-		//기존 리스트의 노드를 변경하지 않고 새로운 리스트의 노드들을 생성하여 구현 
 		DoubledLinkedList2 lst3 = new DoubledLinkedList2();
 		Node4 ai = this.first.rlink, bi = lst2.first.rlink;
-
-
-
 		return lst3;
 
 	}
@@ -125,10 +189,9 @@ class DoubledLinkedList2 {
 		 */
 		Node4 p = first.rlink, q = b.first.rlink;
 		Node4 temp = null;
-
-
 	}
 }
+
 public class Train_ex08_01_LinkedList04_assign {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Merge_NewList("병합-새리스트"), Merge_InPlace("병합-제자리"), Exit("종료");
@@ -151,7 +214,7 @@ public class Train_ex08_01_LinkedList04_assign {
 		}
 	}
 
-	// --- 메뉴 선택 ---//
+	//메뉴 선택
 	static Menu SelectMenu() {
 		Scanner sc1 = new Scanner(System.in);
 		int key;
@@ -170,18 +233,23 @@ public class Train_ex08_01_LinkedList04_assign {
 	public static void main(String[] args) {
 		Menu menu; // 메뉴
 		Scanner sc2 = new Scanner(System.in);
-		DoubledLinkedList2 lst1 = new DoubledLinkedList2(),	lst2 = new DoubledLinkedList2();
-		DoubledLinkedList2 lst3 = new DoubledLinkedList2(), lst4 = new DoubledLinkedList2();
-		String sno1 = null, sname1 = null;
+		DoubledLinkedList2 lst1 = new DoubledLinkedList2();
+		DoubledLinkedList2 lst2 = new DoubledLinkedList2();
+		DoubledLinkedList2 lst3 = new DoubledLinkedList2();
+		DoubledLinkedList2 lst4 = new DoubledLinkedList2();
+		
+		String sno1 = null;
+		String sname1 = null;
 		SimpleObject2 so;
 		boolean result = false;
 		int count = 3;
+		
 		do {
 			switch (menu = SelectMenu()) {
-			case Add: // 객체들의 올림차순으로 정렬되도록 구현
-//				so =  new SimpleObject2();
-//				so.scanData("입력", 3);
-//				lst1.add(so, SimpleObject2.NO_ORDER);
+			case Add:
+				so =  new SimpleObject2();
+				so.scanData("입력", 3);
+				lst1.add(so, SimpleObject2.NO_ORDER);
 				SimpleObject2 [] simpleobjects = new SimpleObject2[10];
 				makeSimpleObjects(simpleobjects);
 				for (int i = 0; i < simpleobjects.length;i++)
@@ -198,18 +266,19 @@ public class Train_ex08_01_LinkedList04_assign {
 			case Search: // 회원 번호 검색
 				so =  new SimpleObject2();
 				so.scanData("탐색", SimpleObject2.NO);
-				result = lst1.search(so, SimpleObject2.NO_ORDER);
-				if (!result)
-					System.out.println("검색 값 = " + so + "데이터가 없습니다.");
+				SimpleObject2 result = lst1.search(so, SimpleObject2.NO_ORDER);
+				if (result==null)
+					System.out.println("검색 값 = " + so.toString() + ", 데이터가 없습니다.");
 				else
-					System.out.println("검색 값 = " + so + "데이터가 존재합니다.");
+					//찾은 객체 전보 출력
+					System.out.println("검색 값 = " + result.toString() + ", 데이터가 존재합니다.");
 				break;
 			case Merge_NewList://기존 2개의 리스트를 합병하여 새로운 리스트를 생성(새로운 노드를 생성하여 추가)
-//				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
-//					so = new SimpleObject2();
-//					so.scanData("병합", 3);
-//					lst2.add(so, SimpleObject2.NO_ORDER );				
-//				}
+				for (int i = 0; i < count; i++) { //3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
+					so = new SimpleObject2();
+					so.scanData("병합", 3);
+					lst2.add(so, SimpleObject2.NO_ORDER );				
+				}
 				SimpleObject2 [] simpleobjects2 = new SimpleObject2[10];
 				makeSimpleObjects2(simpleobjects2);
 				for (int i = 0; i < simpleobjects2.length;i++)
@@ -224,11 +293,11 @@ public class Train_ex08_01_LinkedList04_assign {
 				lst3.show();	
 				break;
 			case Merge_InPlace:
-//				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
-//					so = new SimpleObject2();
-//					so.scanData("병합", 3);
-//					lst4.add(so, SimpleObject2.NO_ORDER );				
-//				}
+				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
+					so = new SimpleObject2();
+					so.scanData("병합", 3);
+					lst4.add(so, SimpleObject2.NO_ORDER );				
+				}
 				SimpleObject2 [] simpleobjects3 = new SimpleObject2[10];
 				makeSimpleObjects3(simpleobjects3);
 				for (int i = 0; i < simpleobjects3.length;i++)

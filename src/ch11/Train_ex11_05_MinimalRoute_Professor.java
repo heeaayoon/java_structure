@@ -1,5 +1,29 @@
 package ch11;
 
+/*
+#최단거리 (heap 사용)
+#choose() 메소드 필요 X
+
+1. Node 객체 생성(vertex, distance)
+	-최소거리 비교를 위해 campator 등을 활용
+2. PriorityQueue<Node>
+public void shortestPath(int startNode) {
+	Arrays.fill(s, false);
+	Arrays.fill(dist, MAX_WEIGHT);
+	PriorityQueue<Node> pq = new PriorityQueue<>();
+	s[startNode] = true;
+	pq.offer(new Node(startNode,0));
+	while(!pq.isEmpty()) {
+		//1. 거리가 가장 짧은 노드 선택
+		//2. 이미 선택된 노드이면 제외
+		//3. 선택되지 않은 노드이면 방문처리
+		//4. 인접한 모든 노드에 대해 거리 갱신
+		//4-1. 더 짧은 거리를 발견하면 heap에 추가
+	}
+	printDistances(startNode);
+}
+*/
+
 //그래프 최단 경로 : BFS문제
 //1. 벨만포드
 //2. 다익스트라
@@ -10,8 +34,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 
-//Graph5는 최단거리에 사용되는 자료구조 
-class Graph5 {
+//Graph6는 최단거리에 사용되는 자료구조 
+class Graph6 {
     private static final int NMAX = 10;
     private static final int MAX_WEIGHT = 999999;
     private int[][] length = new int[NMAX][NMAX]; //노드가 10개인 10X10 행렬
@@ -21,7 +45,7 @@ class Graph5 {
     private final int n; //왜 필요한지? 필드인데 초기화가 안되어 있음 -> 생성자에서 초기화
     
     //생성자의 가장 큰 역할 => 필드 초기화 
-    public Graph5(int nodeSize) {
+    public Graph6(int nodeSize) {
     	this.n = nodeSize;
     	
     	//그래프 초기화
