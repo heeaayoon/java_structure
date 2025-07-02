@@ -6,14 +6,14 @@ package ch08;
  * 원형 이중 리스트로 동일하게 적용
  */
 //Tail이 없으면 원형임
-//정수로 운용되는 더블링크드리스트를 짜줘. 원형이 아니었으면 좋겠어.abstract
+//정수로 운용되는 더블링크드리스트를 짜줘. 원형구조가 아니면 좋겠어
 //
-//링크드 리스트는 노드를 운용하는 자료구조
-//데이터는 '노드'에 들어감
-//일반적으로 링크드리스트는 양방향을 의미함 
-//add, delete가 가장 중요
-//순회
-//맨 앞 add, 맨 뒤 add, 맨 앞 delete, 맨 뒤 delete 
+//1.링크드 리스트는 노드를 운용하는 자료구조
+//2.데이터는 '노드'에 들어감
+//3.일반적으로 링크드리스트는 양방향을 의미함 
+//4.add, delete가 가장 중요
+//4-1.맨 앞 add, 맨 뒤 add, 맨 앞 delete, 맨 뒤 delete 
+//5.순회
 
 import java.util.Comparator;
 import java.util.Scanner;
@@ -40,7 +40,7 @@ class SimpleObject2 {
 	//문자열 표현을 반환
 	@Override
 	public String toString() {
-		return "[" + no + "] " + name;
+		return "[" + no + "]" + name;
 	}
 	
 	//데이터를 입력받는 메소드
@@ -57,6 +57,7 @@ class SimpleObject2 {
 			name = sc.next();
 		}
 	}
+	
 	//회원번호로 순서를 매기는 comparator
 	public static final Comparator<SimpleObject2> NO_ORDER = new NoOrderComparator();
 
@@ -78,7 +79,7 @@ class SimpleObject2 {
 	}
 }
 
-class Node4 {//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있도록 수정
+class Node4 {
 	SimpleObject2 data; // 데이터
 	Node4 llink; // 좌측포인터(앞쪽 노드에 대한 참조)
 	Node4 rlink; // 우측포인터(뒤쪽 노드에 대한 참조)
@@ -95,6 +96,31 @@ class Node4 {//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있�
 		this.rlink = this;
 		this.llink = this;
 	}
+
+	public SimpleObject2 getData() {
+		return data;
+	}
+
+	public void setData(SimpleObject2 data) {
+		this.data = data;
+	}
+
+	public Node4 getLlink() {
+		return llink;
+	}
+
+	public void setLlink(Node4 llink) {
+		this.llink = llink;
+	}
+
+	public Node4 getRlink() {
+		return rlink;
+	}
+
+	public void setRlink(Node4 rlink) {
+		this.rlink = rlink;
+	}
+
 }
 
 //class Node<T>{//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있도록 수정 --> 나중에
@@ -104,16 +130,16 @@ class Node4 {//<T> -> 여러가지 데이터 타입이 전부 들어갈 수 있�
 //}
 
 class DoubledLinkedList2 {
-	private Node4 first; // 머리 포인터(참조하는 곳은 더미노드)
+	private Node4 head; // 머리 포인터(참조하는 곳은 더미노드)
 
 	//생성자(constructor)
 	public DoubledLinkedList2() {
-		first = new Node4(); // dummy(first) 노드를 생성
+		head = new Node4(); // dummy(head) 노드를 생성
 	}
 
 	//리스트가 비어있는가?
 	public boolean isEmpty() {
-		return first.rlink == first; //리스트가 비어있으면 first.rlink와 first.llink는 자기자신(first)을 가리킴
+		return head.rlink == head; //리스트가 비어있으면 head.rlink와 head.llink는 자기자신(head)을 가리킴
 	}
 
 	//전체 노드 표시
@@ -123,11 +149,11 @@ class DoubledLinkedList2 {
 			return; //종료
 		}
 		//첫번째 노드 설정
-		Node4 n = first.rlink; //first에는 데이터가 담겨있지 않음 -> 리스트의 시작과 끝을 알려주는 더미노드임
+		Node4 n = head.rlink; //head에는 데이터가 담겨있지 않음 -> 리스트의 시작과 끝을 알려주는 더미노드임
 		
 		//fist(더미노드)로 돌아올때까지 반복
-		while(n!=first) {
-			if(n.rlink == first) System.out.print(n.data+" ");
+		while(n!=head) {
+			if(n.rlink == head) System.out.print(n.data+" ");
 			else System.out.print(n.data+" -> ");
 			n = n.rlink;
 		}
@@ -141,18 +167,47 @@ class DoubledLinkedList2 {
 			return null; //종료
 		}
 		//첫번째 노드 설정
-		Node4 n = first.rlink;
+		Node4 n = head.rlink;
 		
 		//fist(더미노드)로 돌아올때까지 반복하면서 동일한 데이터를 가진 노드가 있는지를 검색
-		while(n!=first) {
-			if(c.compare(obj, n.data)==0) {
+		while(n!=head) {
+			if(c.compare(obj, n.data) == 0) {
 				return n.data; //데이터가 동일한 노드를 찾음
 			}
-			n= n.rlink;
+			n= n.rlink; //못찾으면 다음노드로 넘어가기
 		}
-		return null; //데이터가 동일한 노드를 못찾음
+		return null; //데이터가 동일한 노드를 끝까지 못찾음
 	}
 
+	//addFirst : 맨 앞에 요소를 추가. 정렬은 X
+	public void addFirst(SimpleObject2 obj) {
+		Node4 newNode = new Node4(obj);
+		Node4 first = head.getRlink();
+		
+		//새로운 노드 좌우 연결
+		newNode.setLlink(head);
+		newNode.setRlink(first);
+		
+		//기존 노드와 연결
+		head.setRlink(newNode);
+		first.setLlink(newNode);
+	}
+	
+	//addLast : 맨 뒤에 요소를 추가. 정렬은 X
+	public void addLast(SimpleObject2 obj) {
+		Node4 newNode = new Node4(obj);
+		Node4 last = head.getLlink();
+		
+		//새로운 노드 좌우 연결
+		newNode.setLlink(last);
+		newNode.setRlink(head);
+		
+		//기존 노드와 연결
+		last.setRlink(newNode);
+		head.setLlink(newNode);
+	}
+	
+	
 	//올림차순으로 정렬하면서 insert
 	public void add(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
 		//첫번째 노드 설정
@@ -175,31 +230,48 @@ class DoubledLinkedList2 {
 		p.llink = newNode;
 	}
 
-	//list에 삭제할 데이터가 있으면 해당 노드를 삭제
+	//해당 노드를 삭제
 	public void delete(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-		
+		//일단 기준 노드(current)를 설정 -> obj와 비교해서 같으면 삭제
+		Node4 current = head.rlink; //값이 유효한 첫 노드를 선택
+		while(current != null) {  //current 노드를 한 칸씩 이동하면서 , obj와 동일한 것이 있는지 확인
+			if(c.compare(current.getData(), obj) == 0) { //동일함 = 삭제할 데이터를 찾음
+				current.getLlink().setRlink(current.getRlink()); // A - B - C => A - C 
+				current.getRlink().setLlink(current.getLlink()); // B를 삭제하고 A와 C를 연결
+				System.out.println("삭제완료 : " + obj);
+			}
+			current = current.getRlink(); //같지 않으면 다음 노드로 넘어가서 다시 if문 검사
+		}
+		//끝까지 돌았는데도(head로 복귀) 동일한 값이 없음
+		System.out.println("삭제할 데이터를 찾을 수 없습니다.");
 	}
 	
 
-	//l3 = l1.merge(l2); 실행하도록 리턴 값이 리스트임 
-	//l.add(위에서 만든 메소드)를 사용하여 구현
-	//기존 리스트의 노드를 변경하지 않고 새로운 리스트의 노드들을 생성하여 구현 
+	//l3 = l1.merge(l2); 실행하도록 리턴 값이 리스트 
+	//l.add(위에서 만든 메소드-정렬하면서 add)를 사용하여 구현
+	//새로운 리스트의 노드들을 생성하여 구현 
 	public DoubledLinkedList2 merge_NewList(DoubledLinkedList2 lst2, Comparator<SimpleObject2> cc) {
-		DoubledLinkedList2 lst3 = new DoubledLinkedList2();
-		Node4 ai = this.first.rlink, bi = lst2.first.rlink;
+		DoubledLinkedList2 lst3 = new DoubledLinkedList2(); //새로운 링크드리스트 생성 -> 여기에다가 병합한 리스트 담기
+		Node4 ai = this.head.rlink; //내 리스트의 첫번째 노드
+		Node4 bi = lst2.head.rlink; //합할 리스트의 첫번째 노드
+		
+		// 두 리스트에 모두 요소가 남아있는 동안 반복
+		while(ai)
+		
+		
+		
 		return lst3;
-
 	}
-	void merge_InPlace(DoubledLinkedList2 b, Comparator<SimpleObject2> cc) {
-		/*
-		 * 연결리스트 a,b에 대하여 a = a + b
-		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
-		 * 난이도 등급: 최상급
-		 * 회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
-		 */
-		Node4 p = first.rlink, q = b.first.rlink;
-		Node4 temp = null;
-	}
+	
+//마지막에 추가 	
+	//연결리스트 a,b에 대하여 a = a + b
+	//회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9) => a = (2,3,4,5,8,9)가 되도록 구현
+	//in-place 방식으로 합병/새로운 노드를 만들지 않고 합병하는 알고리즘 구현
+	//새로운 링크드리스트를 만들지는 않고, 노드 저장만 가능한 공간 세팅
+//	void merge_InPlace(DoubledLinkedList2 b, Comparator<SimpleObject2> cc) {
+//		Node4 p = first.rlink, q = b.first.rlink;
+//		Node4 temp = null;
+//	}
 }
 
 public class Train_ex08_01_LinkedList04_assign {

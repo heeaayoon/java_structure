@@ -41,7 +41,7 @@ public class LinkedList<T> {
 	//addLast() : 맨뒤에 요소 추가
 	public void addLast(T obj) {
 		Node<T> newNode = new Node<>(obj);
-		Node<T> last = head.getNext();
+		Node<T> last = head.getNext(); //head.getPrec(); 인것 같음
 		//새로운 노드 좌우 연결
 		newNode.setprev(last);
 		newNode.setNext(head);
