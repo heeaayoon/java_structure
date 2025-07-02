@@ -5,6 +5,16 @@ package ch08;
  * merge 구현: in-place 구현, 새로운 노드를 생성하여 합병 구현 
  * 원형 이중 리스트로 동일하게 적용
  */
+//Tail이 없으면 원형임
+//정수로 운용되는 더블링크드리스트를 짜줘. 원형이 아니었으면 좋겠어.abstract
+//
+//링크드 리스트는 노드를 운용하는 자료구조
+//데이터는 '노드'에 들어감
+//일반적으로 링크드리스트는 양방향을 의미함 
+//add, delete가 가장 중요
+//순회
+//맨 앞 add, 맨 뒤 add, 맨 앞 delete, 맨 뒤 delete 
+
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -172,7 +182,7 @@ class DoubledLinkedList2 {
 	
 
 	//l3 = l1.merge(l2); 실행하도록 리턴 값이 리스트임 
-	//l.add(객체)를 사용하여 구현
+	//l.add(위에서 만든 메소드)를 사용하여 구현
 	//기존 리스트의 노드를 변경하지 않고 새로운 리스트의 노드들을 생성하여 구현 
 	public DoubledLinkedList2 merge_NewList(DoubledLinkedList2 lst2, Comparator<SimpleObject2> cc) {
 		DoubledLinkedList2 lst3 = new DoubledLinkedList2();
