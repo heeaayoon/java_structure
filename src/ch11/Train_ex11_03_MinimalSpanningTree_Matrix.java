@@ -1,8 +1,8 @@
 package ch11;
 import java.util.*;
 
-//집합트리 푼 이후로 풀기
-//최소신장트리 : 여러 개의 부분 그래프 중 모든 정점이 최소 간선의 합으로 연결된 부분 그래프
+//집합트리 9_3 풀고난 후 풀기
+//최소신장트리 : 여러 개의 부분 그래프 중 모든 정점의 간선이 최소가 되는 부분 그래프
 //모든 정점 -> DFS
 //최소의 합 -> BFS
 
@@ -10,54 +10,71 @@ class Edge4 implements Comparable<Edge4> {
 	int src;
 	int dest;
 	int weight;
+	
+	public Edge4() {
+	}
 
 	public Edge4(int src, int dest, int weight) {
-
+		super();
+		this.src = src;
+		this.dest = dest;
+		this.weight = weight;
 	}
 
 	@Override
 	public String toString() {
-
+		return "Edge4 [src=" + src + ", dest=" + dest + ", weight=" + weight + "]";
 	}
 
+	//주의하기
 	@Override
 	public int compareTo(Edge4 e) {
-
+		return Integer.compare(this.weight, e.weight);
 	}
 }
 
-class Sets2 {
-	
-	int[] parent;
 
-	public Sets2(int n) {
-
-	}
-
-	public int find(int i) {
-
-	}
-	public void union(int x, int y) {
-
-	}
-}
 public class Train_ex11_03_MinimalSpanningTree_Matrix {
 	static void KruskalMST(int[][] matrix) {
 		int n = matrix.length;
-		List<Edge4> edges = new ArrayList<>();
+		List<Edge4> listEdges = new ArrayList<>();
 
-		// 인접 행렬에서 모든 간선 추출
+		// 모든 간선을 리스트에 추가
+		for(int i=0;i<n;i++) {
+			for(int j=i+1;j<n;j++) {
+				if(matrix[i][j] !=0) {
+					Edge4.add(new Edge4(i,j,matrix[i][j]));
+				}
+			}
+		}
+		
+		System.out.println("==간선출력==");
+		for(Edge4 edge : listEdges) {
+			System.out.println(edge);
+		}
 
 
 		// 간선을 가중치 기준으로 정렬
-		Collections.sort(edges);
+		Collections.sort(listEdges);
 
 		// Kruskal 알고리즘을 위한 Disjoint Set 초기화
-		Sets2 ds = new Sets2(n);
+		SetsTree ds = new SetsTree(n);
 		List<Edge4> mst = new ArrayList<>();
+		int totalWeight = 0;
 
-		for (Edge4 edge : edges) {
-	
+		//인접리스트로 변경하기
+		for (Edge4 edge : listEdges) {
+			//연결되어 있지 않으면 ?
+			if (!ds.connected(edge.src(), edge.dest())) {
+				ds.simpleUnion(edge.src(), edge.dest());
+				//ds.weightedUnion(edge.src(), edge.dest());
+				mst.add(edge);
+				totalWeight += edge.weight();
+				
+				if(mst.size()==n-1) {
+					break;
+				}
+			}
 		}
 
 		// MST 출력
